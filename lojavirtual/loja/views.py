@@ -1,11 +1,12 @@
-from django.http import JsonResponse
+from rest_framework import viewsets
+from loja.models import Roupa
+from loja.serializer import RoupaSerializer
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
-def itens_loja(request):
-    
-    if request.method == 'GET':
-        roupas = {
-            "tipo": "calça",
-            "preco": 50,
-            "descrição": "jeans"
-        }
-    return JsonResponse(roupas)
+class RoupasViewSet(viewsets.ModelViewSet):
+    """Listando todas as roupas"""
+    queryset = Roupa.objects.all()
+    serializer_class = RoupaSerializer
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
